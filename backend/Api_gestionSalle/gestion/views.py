@@ -38,7 +38,6 @@ class FiliereCreateAPI(generics.CreateAPIView):
 """CLASS POUR LANCER L'ALGORITHME"""
 
 class LancerAlgoAPI(APIView):
-    permission_classes=[IsAuthenticated]
 
     @swagger_auto_schema(
     operation_description="Lancer l'algorithme pour assigner les salles",
@@ -85,14 +84,11 @@ class LancerAlgoAPI(APIView):
 
             
 class AfficherAttribAPI(generics.ListAPIView):
-    permission_classes=[IsAuthenticated]
-
     queryset=Attribution.objects.all()
     serializer_class=AttributionSerializer
     
 
 class ConflitsAPIView(APIView):
-    permission_classes=[IsAuthenticated]
 
     def get(self, request):
         # Récupérer toutes les attributions
@@ -151,7 +147,6 @@ class ConflitsAPIView(APIView):
 
 
 class ResoudreConflitAPIView(APIView):
-    permission_classes=[IsAuthenticated]
 
     @swagger_auto_schema(
         operation_description="Résout les conflits en supprimant certaines attributions et en gardant une attribution spécifique.",

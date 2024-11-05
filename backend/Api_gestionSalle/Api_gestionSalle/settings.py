@@ -15,6 +15,7 @@ import dj_database_url
 import os
 
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-hc-+w6yis$#0$rb#z53zio-oab(^sips_o@kph3j5ll@$+9j0q"
+SECRET_KEY = os.environ.get('SECRET_KEY','django-insecure-hc-+w6yis$#0$rb#z53zio-oab(^sips_o@kph3j5ll@$+9j0q')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG','True')=="True"
 
 ALLOWED_HOSTS = ['*']
 
@@ -91,12 +92,21 @@ WSGI_APPLICATION = "Api_gestionSalle.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-
-
-DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+if not DEBUG:
+    DATABASES = {
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 
+else:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+  
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -132,8 +142,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
-
-STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
