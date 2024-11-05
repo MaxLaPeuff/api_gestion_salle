@@ -1,1 +1,1 @@
-web: gunicorn Api_gestionSalle.wsgi --log-file -
+web: gunicorn Api_gestionSalle.wsgi:application --log-file -
