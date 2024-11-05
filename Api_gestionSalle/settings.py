@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "gestion",
     "rest_framework",
     "drf_yasg",
+    'corsheaders',
+    
 ]
 
 REST_FRAMEWORK = {
@@ -65,7 +67,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "Api_gestionSalle.urls"
@@ -158,3 +161,17 @@ SWAGGER_SETTINGS={
     'LOGIN_URL':'/admin/login/',
     'LOGOUT_URL':'/admin/logout/'
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_HEADERS = [
+    'Authorization',
+    'Content-Type',
+    'X-Requested-With',
+    'Accept',
+    'Origin'
+]
