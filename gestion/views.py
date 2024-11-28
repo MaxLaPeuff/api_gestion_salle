@@ -18,6 +18,18 @@ from drf_yasg import openapi
 class SalleReadAPI(generics.ListAPIView):
     queryset=Salle.objects.all()
     serializer_class=SalleSerializer
+
+    @swagger_auto_schema(
+        operation_description="Liste toutes les salles disponibles",
+        responses={
+            200: SalleSerializer(many=True),
+            400: openapi.Response("Mauvaise requête"),
+        },
+    )
+    
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
     
 """CLASS GENERIQUE POUR CRUD LES FILIERES""" 
 
@@ -25,9 +37,26 @@ class FiliereReadAPI(generics.ListAPIView):
     queryset=Entite.objects.all()
     serializer_class=FiliereSerializer
     
+    
 class FiliereCreateAPI(generics.CreateAPIView):
+    
     queryset=Entite.objects.all()
     serializer_class=FiliereSerializer
+    
+    
+    @swagger_auto_schema(
+        operation_description="Créer une nouvelle filière",
+        request_body=FiliereSerializer,
+        responses={
+            201: openapi.Response("Créée avec succès", FiliereSerializer),
+            400: openapi.Response("Mauvaise requête")
+        },
+    )
+    
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+    
     
     def get_serializer_context(self):
         # Ajouter la requête actuelle au contexte pour que le sérialiseur puisse y accéder
@@ -86,6 +115,17 @@ class LancerAlgoAPI(APIView):
 class AfficherAttribAPI(generics.ListAPIView):
     queryset=Attribution.objects.all()
     serializer_class=AttributionSerializer
+    
+    @swagger_auto_schema(
+        operation_description="Liste toutes les attributions effectuée par l'algo",
+        responses={
+            200: AttributionSerializer(many=True),
+            400: openapi.Response("Mauvaise requête"),
+        },
+    )
+    
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
     
 
 class ConflitsAPIView(APIView):

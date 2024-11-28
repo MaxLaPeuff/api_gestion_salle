@@ -1,8 +1,9 @@
 import pulp
-from .models import Entite, Salle
+from .models import Entite, Salle,Attribution
 from datetime import time
 
 def lancer_algo_affectation():
+    Attribution.objects.all().delete()
     # Récupération des données de la BDD
     demandes = Entite.objects.all()
     salles = Salle.objects.all()
@@ -22,7 +23,7 @@ def lancer_algo_affectation():
     # Contrainte 1 : chaque entité doit être assignée à une seule salle
     for demande in demandes:
         model += pulp.lpSum(x[(demande.id, salle.id)] for salle in salles) == 1
-    
+     
     # Contrainte 2 : une salle ne peut être attribuée qu’à une seule entité pour un créneau donné
     for salle in salles:
         for demande1 in demandes:
